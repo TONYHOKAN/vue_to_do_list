@@ -89,6 +89,11 @@
           operationValue="="
           @child-event="calculate"
         />
+        <OperationButton
+          displayValue="."
+          operationValue="."
+          @child-event="calculate"
+        />
       </div>
     </div>
   </div>
@@ -145,6 +150,7 @@ export default {
         const result = this.executeOperatorCalculation(
           this.inputHistoryList.map((e) => e)
         );
+        // FIXME, that maybe precision problem in js
         this.inputHistoryList = [];
         this.inputHistoryList = [result];
         this.calculatedResult = result;
@@ -197,9 +203,10 @@ export default {
       );
       console.log("leftPart: " + leftPart);
       console.log("rightPart: " + rightPart);
+      // reverse that left part start from right to left, as for loop start from left
       const leftPartNumberArray = this.extractNumberPartUntilOperator(
         leftPart.map((x) => x).reverse()
-      );
+      ).reverse();
       const rightPartNumberArray =
         this.extractNumberPartUntilOperator(rightPart);
       console.log("leftPartNumberArray: " + leftPartNumberArray);
@@ -293,14 +300,16 @@ export default {
       return testResult;
     },
     parseAndExecuteOperatorCalculation(numberOne, numberTwo, operator) {
+      const floatNumberOne = Number.parseFloat(numberOne);
+      const floatNumberTwo = Number.parseFloat(numberTwo);
       if (operator === "+") {
-        return numberOne + numberTwo;
+        return floatNumberOne + floatNumberTwo;
       } else if (operator === "-") {
-        return numberOne - numberTwo;
+        return floatNumberOne - floatNumberTwo;
       } else if (operator === "*") {
-        return numberOne * numberTwo;
+        return floatNumberOne * floatNumberTwo;
       } else if (operator === "/") {
-        return numberOne / numberTwo;
+        return floatNumberOne / floatNumberTwo;
       }
     },
   },
