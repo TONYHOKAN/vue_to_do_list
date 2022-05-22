@@ -103,6 +103,7 @@
 import NumberButton from "./NumberButton.vue";
 import OperationButton from "./OperationButton.vue";
 import ResultDisplayBar from "./ResultDisplayBar.vue";
+import BigDecimal from "js-big-decimal";
 
 export default {
   name: "CalculatorComponent",
@@ -173,6 +174,7 @@ export default {
       const sumOrMinuResult =
         this.executeSumOrMinusCalculation(mutiOrDivResult);
       console.log("sumOrMinuResult: " + sumOrMinuResult);
+      // console.log(new BigDecimal(sumOrMinuResult[0]).round(2));
       return sumOrMinuResult[0];
     },
     executeMutiOrDivCalculation(actionList) {
@@ -300,17 +302,19 @@ export default {
       return testResult;
     },
     parseAndExecuteOperatorCalculation(numberOne, numberTwo, operator) {
-      const floatNumberOne = Number.parseFloat(numberOne);
-      const floatNumberTwo = Number.parseFloat(numberTwo);
+      const bigDecimalNumberOne = new BigDecimal(numberOne);
+      const bigDecimalNumberTwo = new BigDecimal(numberTwo);
+      var result = 0;
       if (operator === "+") {
-        return floatNumberOne + floatNumberTwo;
+        result = bigDecimalNumberOne.add(bigDecimalNumberTwo);
       } else if (operator === "-") {
-        return floatNumberOne - floatNumberTwo;
+        result = bigDecimalNumberOne.subtract(bigDecimalNumberTwo);
       } else if (operator === "*") {
-        return floatNumberOne * floatNumberTwo;
+        result = bigDecimalNumberOne.multiply(bigDecimalNumberTwo);
       } else if (operator === "/") {
-        return floatNumberOne / floatNumberTwo;
+        result = bigDecimalNumberOne.divide(bigDecimalNumberTwo);
       }
+      return result.getValue();
     },
   },
 };
