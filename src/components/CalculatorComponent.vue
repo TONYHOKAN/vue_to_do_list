@@ -84,14 +84,20 @@
           operationValue="C"
           @child-event="calculate"
         />
-        <OperationButton
-          displayValue="="
-          operationValue="="
-          @child-event="calculate"
-        />
+
         <OperationButton
           displayValue="."
           operationValue="."
+          @child-event="calculate"
+        />
+        <OperationButton
+          displayValue="B"
+          operationValue="B"
+          @child-event="calculate"
+        />
+        <OperationButton
+          displayValue="="
+          operationValue="="
           @child-event="calculate"
         />
       </div>
@@ -131,6 +137,11 @@ export default {
         return;
       }
 
+      if (val === "B") {
+        this.back();
+        return;
+      }
+
       if (val === "=") {
         // loop all inputHistoryList
         // find first * or /
@@ -151,19 +162,12 @@ export default {
         const result = this.executeOperatorCalculation(
           this.inputHistoryList.map((e) => e)
         );
-        // FIXME, that maybe precision problem in js
-        this.inputHistoryList = [];
-        this.inputHistoryList = [result];
+        // this.inputHistoryList = [];
+        // this.inputHistoryList = [result];
         this.calculatedResult = result;
         return;
       }
-
-      if (this.inputHistoryDisplay !== "") {
-        this.inputHistoryDisplay = this.inputHistoryDisplay + " " + val;
-      } else {
-        this.inputHistoryDisplay = val;
-      }
-      this.inputHistoryList.push(val);
+      this.updateDisplayHistory(val);
       console.log(this.inputHistoryDisplay);
       console.log(this.inputHistoryList);
     },
@@ -315,6 +319,20 @@ export default {
         result = bigDecimalNumberOne.divide(bigDecimalNumberTwo);
       }
       return result.getValue();
+    },
+    back() {
+      this.inputHistoryList.pop();
+      this.inputHistoryDisplay = this.inputHistoryList.join("");
+      console.log("back: " + this.inputHistoryList);
+      console.log("inputHistoryDisplay: " + this.inputHistoryDisplay);
+    },
+    updateDisplayHistory(value) {
+      if (this.inputHistoryDisplay !== "") {
+        this.inputHistoryDisplay = this.inputHistoryDisplay + " " + value;
+      } else {
+        this.inputHistoryDisplay = value;
+      }
+      this.inputHistoryList.push(value);
     },
   },
 };
