@@ -118,6 +118,9 @@ export default {
     OperationButton,
     ResultDisplayBar,
   },
+  props: {
+    number: Number,
+  },
   data() {
     return {
       inputHistoryDisplay: "",
@@ -339,6 +342,9 @@ export default {
       }
       this.inputHistoryList.push(value);
     },
+  },
+  created() {
+    console.log("created" + this.number);
   },
 };
 </script>

@@ -22,6 +22,7 @@ const routes = [
     path: "/calculator/:number",
     name: "calculator",
     component: CalculatorView,
+    props: true,
   },
   {
     path: "/:pathMatch(.*)*",
