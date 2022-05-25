@@ -122,7 +122,7 @@ export default {
     return {
       inputHistoryDisplay: "",
       inputHistoryList: [],
-      calculatedResult: 0,
+      calculatedResult: this.$route.params.number || 0,
     };
   },
   methods: {
