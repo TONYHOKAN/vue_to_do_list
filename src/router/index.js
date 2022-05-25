@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import CalculatorView from "../views/CalculatorView.vue";
+import NotFound from "../views/NotFound.vue";
 
 const routes = [
   {
@@ -21,6 +22,11 @@ const routes = [
     path: "/calculator/:number",
     name: "calculator",
     component: CalculatorView,
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "notFound",
+    component: NotFound,
   },
 ];
 

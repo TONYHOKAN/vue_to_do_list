@@ -125,6 +125,11 @@ export default {
       calculatedResult: this.$route.params.number || 0,
     };
   },
+  watch: {
+    calculatedResult: function () {
+      console.log("calculatedResult changed");
+    },
+  },
   methods: {
     calculate(val) {
       // TODO, handle first input is operator case
