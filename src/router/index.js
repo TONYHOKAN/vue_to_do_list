@@ -1,39 +1,24 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
-import CalculatorView from "../views/CalculatorView.vue";
-import NotFound from "../views/NotFound.vue";
+import PageAccessPermissionService from "../service/PageRouteService";
 
-const routes = [
-  {
-    path: "/",
-    name: "home",
-    component: HomeView,
-  },
-  {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
-  },
-  {
-    path: "/calculator/:number",
-    name: "calculator",
-    component: CalculatorView,
-    props: true,
-  },
-  {
-    path: "/:pathMatch(.*)*",
-    name: "notFound",
-    component: NotFound,
-  },
-];
+const allRoute = PageAccessPermissionService.getAllRoute();
+const routes = Object.keys(allRoute).map((e) => allRoute[e]);
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach((to) => {
+  const isAllow = PageAccessPermissionService.isAllowAccess(to.name, [
+    "ROLE_ADMIN",
+    "ROLE_TEST",
+  ]);
+  console.log("isAllow:" + isAllow);
+  if (!isAllow) {
+    router.push(PageAccessPermissionService.getAllRoute().notAuthorized.path);
+  }
+  return isAllow;
 });
 
 export default router;
