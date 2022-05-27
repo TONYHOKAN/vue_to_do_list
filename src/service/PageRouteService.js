@@ -24,9 +24,9 @@ const PageAccessPermissionService = {
   },
   getAllRoute() {
     return {
-      homeView: {
+      [HomeView.name]: {
         path: "/",
-        name: "homeView",
+        name: HomeView.name,
         component: HomeView,
         viewAccessPermission: ["ROLE_ADMIN"],
       },
@@ -40,21 +40,21 @@ const PageAccessPermissionService = {
           import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
         viewAccessPermission: ["ROLE_ADMIN"],
       },
-      calculatorView: {
+      [CalculatorView.name]: {
         path: "/calculator/:number",
-        name: "calculatorView",
+        name: CalculatorView.name,
         component: CalculatorView,
         props: true,
         viewAccessPermission: ["ROLE_TEST"],
       },
-      notAuthorized: {
+      [NotAuthorized.name]: {
         path: "/notAuthorized",
-        name: "notAuthorized",
+        name: NotAuthorized.name,
         component: NotAuthorized,
       },
-      notFoundView: {
+      [NotFound]: {
         path: "/:pathMatch(.*)*",
-        name: "notFoundView",
+        name: NotFound.name,
         component: NotFound,
       },
     };
