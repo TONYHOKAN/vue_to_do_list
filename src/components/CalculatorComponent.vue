@@ -121,9 +121,15 @@ export default {
   props: {
     number: Number,
   },
+  computed: {
+    inputHistoryDisplay() {
+      return this.$store.state.inputHistoryDisplay;
+    },
+  },
   data() {
     return {
-      inputHistoryDisplay: "",
+      // inputHistoryDisplay: this.$store.state.inputHistoryDisplay,
+      // inputHistoryDisplay: "",
       inputHistoryList: [],
       calculatedResult: this.$route.params.number || 0,
     };
@@ -140,7 +146,7 @@ export default {
       // TODO, handle input decimal case
       if (val === "C") {
         this.inputHistoryList = [];
-        this.inputHistoryDisplay = "";
+        this.$store.commit("inputHistoryDisplay", "");
         this.calculatedResult = 0;
         return;
       }
@@ -176,7 +182,7 @@ export default {
         return;
       }
       this.updateDisplayHistory(val);
-      console.log(this.inputHistoryDisplay);
+      console.log(this.$store.state.inputHistoryDisplay);
       console.log(this.inputHistoryList);
     },
     executeOperatorCalculation(actionList) {
@@ -330,21 +336,30 @@ export default {
     },
     back() {
       this.inputHistoryList.pop();
-      this.inputHistoryDisplay = this.inputHistoryList.join("");
+      this.$store.commit(
+        "inputHistoryDisplay",
+        this.$store.state.inputHistoryDisplay.join("")
+      );
       console.log("back: " + this.inputHistoryList);
-      console.log("inputHistoryDisplay: " + this.inputHistoryDisplay);
+      console.log(
+        "inputHistoryDisplay: " + this.$store.state.inputHistoryDisplay
+      );
     },
     updateDisplayHistory(value) {
-      if (this.inputHistoryDisplay !== "") {
-        this.inputHistoryDisplay = this.inputHistoryDisplay + " " + value;
+      if (this.$store.state.inputHistoryDisplay !== "") {
+        this.$store.commit(
+          "inputHistoryDisplay",
+          this.$store.state.inputHistoryDisplay + " " + value
+        );
       } else {
-        this.inputHistoryDisplay = value;
+        this.$store.commit("inputHistoryDisplay", value);
       }
       this.inputHistoryList.push(value);
     },
   },
   created() {
     console.log("created" + this.number);
+    console.log("storeValue: " + this.$store.state.inputHistoryDisplay);
   },
 };
 </script>
