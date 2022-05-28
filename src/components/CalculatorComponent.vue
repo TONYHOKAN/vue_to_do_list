@@ -110,6 +110,7 @@ import NumberButton from "./NumberButton.vue";
 import OperationButton from "./OperationButton.vue";
 import ResultDisplayBar from "./ResultDisplayBar.vue";
 import BigDecimal from "js-big-decimal";
+import { mainStoreModel } from "../store/mainStore";
 
 export default {
   name: "CalculatorComponent",
@@ -123,7 +124,7 @@ export default {
   },
   computed: {
     inputHistoryDisplay() {
-      return this.$store.state.inputHistoryDisplay;
+      return mainStoreModel.getInputHistoryDisplay();
     },
   },
   data() {
@@ -146,7 +147,7 @@ export default {
       // TODO, handle input decimal case
       if (val === "C") {
         this.inputHistoryList = [];
-        this.$store.commit("inputHistoryDisplay", "");
+        mainStoreModel.setInputHistoryDisplay("");
         this.calculatedResult = 0;
         return;
       }
@@ -182,7 +183,7 @@ export default {
         return;
       }
       this.updateDisplayHistory(val);
-      console.log(this.$store.state.inputHistoryDisplay);
+      console.log(mainStoreModel.getInputHistoryDisplay());
       console.log(this.inputHistoryList);
     },
     executeOperatorCalculation(actionList) {
@@ -336,30 +337,30 @@ export default {
     },
     back() {
       this.inputHistoryList.pop();
-      this.$store.commit(
-        "inputHistoryDisplay",
-        this.$store.state.inputHistoryDisplay.join("")
+      mainStoreModel.setInputHistoryDisplay(
+        mainStoreModel.getInputHistoryDisplay().join("")
       );
+
       console.log("back: " + this.inputHistoryList);
       console.log(
-        "inputHistoryDisplay: " + this.$store.state.inputHistoryDisplay
+        "inputHistoryDisplay: " + mainStoreModel.getInputHistoryDisplay()
       );
     },
     updateDisplayHistory(value) {
       if (this.$store.state.inputHistoryDisplay !== "") {
-        this.$store.commit(
-          "inputHistoryDisplay",
-          this.$store.state.inputHistoryDisplay + " " + value
+        mainStoreModel.setInputHistoryDisplay(
+          mainStoreModel.getInputHistoryDisplay() + " " + value
         );
       } else {
-        this.$store.commit("inputHistoryDisplay", value);
+        mainStoreModel.setInputHistoryDisplay(value);
       }
       this.inputHistoryList.push(value);
     },
   },
   created() {
     console.log("created" + this.number);
-    console.log("storeValue: " + this.$store.state.inputHistoryDisplay);
+    console.log("storeValue: " + mainStoreModel.getInputHistoryDisplay());
+    // console.log("getters: " + mainStore.getters.getinputHistoryDisplay);
   },
 };
 </script>

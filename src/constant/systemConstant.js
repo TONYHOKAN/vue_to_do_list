@@ -1,5 +1,3 @@
-const MUTATION_TYPE = {
-  inputHistoryDisplay: "study vuex",
+export const STATE_NAME = {
+  inputHistoryDisplay: "inputHistoryDisplay",
 };
-
-export default MUTATION_TYPE;
