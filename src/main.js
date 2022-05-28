@@ -5,4 +5,4 @@ import "ant-design-vue/dist/antd.css";
 import router from "./router";
 import { mainStore } from "./store/mainStore";
 
-createApp(App).use(router).use(Antd).use(mainStore).mount("#app");
+createApp(App).use(mainStore).use(router).use(Antd).mount("#app");

@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-// import { STATE_NAME } from "../constant/systemConstant";
+import { CalculatorStore } from "./calculatorStore";
 
 // what type of store we need?
 // 1. plain respone from 1 API, e.g restful GET repsone ... etc, most likely for form update
@@ -10,32 +10,16 @@ import { createStore } from "vuex";
 // UserStore have many attribute like UserStore.getName() = UserEntity.setName()
 // but UserStore also domain object, as it have mutation/ action concept, which mean every method in action is domain operation
 export const mainStore = createStore({
-  state() {
-    return {
-      inputHistoryDisplay: "study vuex",
-    };
-  },
-  // not allow mutations have business and compute logic, only allow update value. All other logic must locate in component or serivce
-  mutations: {
-    inputHistoryDisplay(state, value) {
-      state.inputHistoryDisplay = value;
-    },
-  },
-  getters: {
-    inputHistoryDisplay(state) {
-      return state.inputHistoryDisplay;
-    },
-    abc() {
-      return "";
-    },
+  modules: {
+    calculatorStore: CalculatorStore,
   },
 });
 
-export const mainStoreModel = {
+export const CalculatorStoreModel = {
   getInputHistoryDisplay() {
-    return mainStore.state.inputHistoryDisplay;
+    return mainStore.state.calculatorStore.inputHistoryDisplay;
   },
   setInputHistoryDisplay(value) {
-    return mainStore.commit("inputHistoryDisplay", value);
+    return mainStore.commit("calculatorStore/inputHistoryDisplay", value);
   },
 };

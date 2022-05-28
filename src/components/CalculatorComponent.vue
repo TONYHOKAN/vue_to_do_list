@@ -1,7 +1,7 @@
 <template>
   <div id="calculator-component">
     <ResultDisplayBar
-      :input-history="inputHistoryDisplay"
+      :input-history="getInputHistoryDisplay"
       :calculated-result="calculatedResult"
     />
     <div id="calculator-component-button-container">
@@ -110,7 +110,7 @@ import NumberButton from "./NumberButton.vue";
 import OperationButton from "./OperationButton.vue";
 import ResultDisplayBar from "./ResultDisplayBar.vue";
 import BigDecimal from "js-big-decimal";
-import { mainStoreModel } from "../store/mainStore";
+import { CalculatorStoreModel } from "../store/mainStore";
 
 export default {
   name: "CalculatorComponent",
@@ -123,9 +123,10 @@ export default {
     number: Number,
   },
   computed: {
-    inputHistoryDisplay() {
-      return mainStoreModel.getInputHistoryDisplay();
-    },
+    // inputHistoryDisplay() {
+    //   return CalculatorStoreModel.getInputHistoryDisplay();
+    // },
+    ...CalculatorStoreModel,
   },
   data() {
     return {
@@ -147,7 +148,7 @@ export default {
       // TODO, handle input decimal case
       if (val === "C") {
         this.inputHistoryList = [];
-        mainStoreModel.setInputHistoryDisplay("");
+        CalculatorStoreModel.setInputHistoryDisplay("");
         this.calculatedResult = 0;
         return;
       }
@@ -183,7 +184,7 @@ export default {
         return;
       }
       this.updateDisplayHistory(val);
-      console.log(mainStoreModel.getInputHistoryDisplay());
+      console.log(CalculatorStoreModel.getInputHistoryDisplay());
       console.log(this.inputHistoryList);
     },
     executeOperatorCalculation(actionList) {
@@ -337,29 +338,29 @@ export default {
     },
     back() {
       this.inputHistoryList.pop();
-      mainStoreModel.setInputHistoryDisplay(
-        mainStoreModel.getInputHistoryDisplay().join("")
+      CalculatorStoreModel.setInputHistoryDisplay(
+        CalculatorStoreModel.getInputHistoryDisplay().join("")
       );
 
       console.log("back: " + this.inputHistoryList);
       console.log(
-        "inputHistoryDisplay: " + mainStoreModel.getInputHistoryDisplay()
+        "inputHistoryDisplay: " + CalculatorStoreModel.getInputHistoryDisplay()
       );
     },
     updateDisplayHistory(value) {
       if (this.$store.state.inputHistoryDisplay !== "") {
-        mainStoreModel.setInputHistoryDisplay(
-          mainStoreModel.getInputHistoryDisplay() + " " + value
+        CalculatorStoreModel.setInputHistoryDisplay(
+          CalculatorStoreModel.getInputHistoryDisplay() + " " + value
         );
       } else {
-        mainStoreModel.setInputHistoryDisplay(value);
+        CalculatorStoreModel.setInputHistoryDisplay(value);
       }
       this.inputHistoryList.push(value);
     },
   },
   created() {
     console.log("created" + this.number);
-    console.log("storeValue: " + mainStoreModel.getInputHistoryDisplay());
+    console.log("storeValue: " + CalculatorStoreModel.getInputHistoryDisplay());
     // console.log("getters: " + mainStore.getters.getinputHistoryDisplay);
   },
 };
