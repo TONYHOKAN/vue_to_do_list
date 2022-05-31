@@ -1,0 +1,13 @@
+version: "3.5"
+
+services:
+  vue_to_do:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        BUILD_ENV: "dev"
+    image: vue_to_do
+    ports:
+      - 5001:80
+    container_name: vue_to_do

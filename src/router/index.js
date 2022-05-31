@@ -4,6 +4,7 @@ import PageAccessPermissionService from "../service/PageRouteService";
 const allRoute = PageAccessPermissionService.getAllRoute();
 const routes = Object.keys(allRoute).map((e) => allRoute[e]);
 
+console.log("process.env.VUE_APP_ENV: " + process.env.VUE_APP_ENV);
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
