@@ -2,19 +2,19 @@
   <a-button id="number-button" @click="click">{{ displayValue }}</a-button>
 </template>
 
-<script>
-export default {
-  name: "NumberButton",
-  props: {
-    displayValue: String,
-    numberValue: Number,
-  },
-  methods: {
-    click() {
-      console.log(this.numberValue);
-      this.$emit("child-event", this.numberValue);
-    },
-  },
+<script setup>
+import { toRefs } from "vue";
+
+const props = defineProps({
+  displayValue: String,
+  numberValue: Number,
+});
+
+const { numberValue } = toRefs(props);
+const emit = defineEmits(["child-event"]);
+const click = () => {
+  // console.log(numberValue);
+  emit("child-event", numberValue.value);
 };
 </script>
 

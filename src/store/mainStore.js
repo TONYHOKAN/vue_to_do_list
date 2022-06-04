@@ -17,6 +17,10 @@ export const mainStore = createStore({
 
 export const CalculatorStoreModel = {
   getInputHistoryDisplay() {
+    // console.log(
+    //   "mainStore.state.calculatorStore.inputHistoryDisplay:" +
+    //     mainStore.state.calculatorStore.inputHistoryDisplay
+    // );
     return mainStore.state.calculatorStore.inputHistoryDisplay;
   },
   setInputHistoryDisplay(value) {
