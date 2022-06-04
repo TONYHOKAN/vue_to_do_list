@@ -339,7 +339,7 @@ export default {
     back() {
       this.inputHistoryList.pop();
       CalculatorStoreModel.setInputHistoryDisplay(
-        CalculatorStoreModel.getInputHistoryDisplay().join("")
+        this.inputHistoryList.map((e) => e).join(" ")
       );
 
       console.log("back: " + this.inputHistoryList);
